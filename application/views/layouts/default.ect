@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="/favicon.png">
+
+	<title><%- @pageTitle %></title>
+
+	<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="/css/style.css" rel="stylesheet" type="text/css">
+	<link href="/js/elrte/elrte.min.css" rel="stylesheet" type="text/css">
+
+	<!--<script src="/js/jquery-2.0.3.min.js"></script>-->
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.easing.1.3.js"></script>
+	<script src="/js/underscore-min.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.synctranslit.min.js"></script>
+	<script src="/js/ckeditor/ckeditor.js"></script>
+	<script src="/js/elrte/elrte.min.js"></script>
+	<script src="/js/main.js"></script>
+
+	<!--[if lt IE 9]>
+		<script src="/js/html5shiv.js"></script>
+		<script src="/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+<%- @widget('TbNavBar', {
+	fixed: 'top',
+	isInverse: true,
+	inContainer: true,
+	brand: {
+		name: 'CubeCMS',
+		href: '/'
+	}
+}); %>
+
+<div id="contentWrapper">
+	<div class="container"><% content %></div>
+	<div id="push"></div>
+</div>
+
+<div id="footer">
+	<div class="container">
+		Copyright  <i class="glyphicon glyphicon-copyright-mark"></i>  <a href="http://vk.com/evildev">Dmitriy Yurchenko</a>, 2013
+	</div>
+</div>
+
+</body>
+</html>

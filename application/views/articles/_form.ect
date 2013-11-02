@@ -1,0 +1,47 @@
+<% form = @createWidget('tbActiveForm', {
+	id: 'itemForm',
+	type: 'horizontal'
+}); %>
+<%- form.open() %>
+<%- form.textFieldRow(@model, 'name'); %>
+<%- form.textFieldRow(@model, 'alias'); %>
+<%- form.dropDownListRow(@model, 'category_id', Cube.html.listData(@categories, 'id', 'name')); %>
+
+<div class="form-group">
+	<label for="description" class="col-lg-2 control-label"></label>
+	<div class="col-lg-10">
+		<ul class="nav nav-tabs">
+			<li class="pull-right text-muted" style="padding: 8px;"><i class="glyphicon glyphicon-ok"></i> Изменения сохранены</li>
+			<li class="active"><a href="#tabContent">Содержание</a></li>
+			<li><a href="#tabDescription">Описание</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tabContent"><%- @widget('ckEditor', {
+				model: @model,
+				attribute: 'content',
+				height: '800px'
+			}) %></div>
+			<div class="tab-pane" id="tabDescription"><%- @widget('ckEditor', {
+				model: @model,
+				attribute: 'description',
+				height: '300px'
+			}) %></div>
+		</div>
+	</div>
+</div>
+
+<%- form.close() %>
+
+<script>
+$(function() {
+	$('#Articles_name').syncTranslit({
+		destination: 'Articles_alias',
+		urlSeparator: '_'
+	});
+
+	$('.nav-tabs a').click(function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});
+});
+</script>

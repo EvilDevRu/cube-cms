@@ -1,0 +1,18 @@
+<% form = @createWidget('tbActiveForm', {
+	id: 'itemForm',
+	type: 'horizontal'
+}); %>
+<%- form.open() %>
+<%- form.textFieldRow(@model, 'name'); %>
+<%- form.textFieldRow(@model, 'alias'); %>
+<%- form.textAreaRow(@model, 'meta_desc'); %>
+<%- form.textAreaRow(@model, 'meta_keys'); %>
+<%- form.textAreaRow(@model, 'description', { type: 'ckeditor' }); %>
+<%- form.close() %>
+
+<script>
+	$('#Categories_name').syncTranslit({
+		destination: 'Categories_alias',
+		urlSeparator: '_'
+	});
+</script>

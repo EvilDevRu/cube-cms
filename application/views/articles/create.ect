@@ -1,0 +1,24 @@
+<% extend 'layouts/default.ect' %>
+
+<%- @widget('TbBreadcrumbs', {
+	links: [
+		['Статьи', '/articles/'],
+		'Создать'
+	]
+}); %>
+
+<div class="pull-right" id="toolbar">
+	<%- @widget('TbButton', {
+		id: 'saveModel',
+		type: 'primary',
+		name: '<i class="glyphicon glyphicon-ok"></i> Создать',
+		onClick: '$("#itemForm").submit();';
+	}); %>
+	<a href="/articles/" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span> Отмена</a>
+</div>
+
+<div class="page-header">
+	<h1>Создать статью</h1>
+</div>
+
+<% include 'articles/_form.ect' %>

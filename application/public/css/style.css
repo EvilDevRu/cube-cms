@@ -1,0 +1,29 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	padding-top: 80px;
+	overflow-y: scroll;
+}
+
+#contentWrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -100px;
+}
+
+#toolbar {
+	margin-top: 22px;
+}
+
+#push {
+	height: 100px;
+}
+
+#footer {
+	height: 100px;
+	background: #f5f5f5;
+	padding-top: 20px;
+}
