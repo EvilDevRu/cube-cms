@@ -24,8 +24,8 @@ module.exports = {
 		//	Session storage (e.g. memory (by default), redis).
 		session: {
 			store: 'redis',
-			password: '123',
-			prefix: 'sess_evildev:'
+			password: '',
+			prefix: ''
 		}
 	},
 

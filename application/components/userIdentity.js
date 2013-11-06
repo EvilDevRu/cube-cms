@@ -17,6 +17,12 @@ module.exports = Cube.Class({
 	 * Auth user.
 	 */
 	authenticate: function(callback) {
+		if (!this.username) {
+			//	TODO: Throw
+			console.error('Auth fail.');
+			return;
+		}
+
 		Cube.models.pg('Users').find({ login: this.username.trim() }).one(function(err, user) {
 			if (err) {
 				callback(err);
