@@ -34,7 +34,8 @@ module.exports = Cube.Class({
 			description: 'Описание',
 			content: 'Содержание',
 			date_create: 'Дата создания',
-			date_update: 'Дата последнего обновления'
+			date_update: 'Дата последнего обновления',
+			is_publish: 'Опубликовано'
 		};
 	},
 

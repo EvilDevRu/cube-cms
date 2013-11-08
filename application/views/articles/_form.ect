@@ -6,6 +6,7 @@
 <%- form.textFieldRow(@model, 'name'); %>
 <%- form.textFieldRow(@model, 'alias'); %>
 <%- form.dropDownListRow(@model, 'category_id', Cube.html.listData(@categories, 'id', 'name')); %>
+<%- form.checkBoxRow(@model, 'is_publish'); %>
 
 <div class="form-group">
 	<label for="description" class="col-lg-2 control-label"></label>

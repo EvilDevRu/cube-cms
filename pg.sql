@@ -9,6 +9,7 @@ CREATE TABLE articles
   content text NOT NULL,
   date_create timestamp without time zone NOT NULL,
   date_update timestamp without time zone NOT NULL,
+  is_publish boolean DEFAULT false,
   CONSTRAINT articles_pkey PRIMARY KEY (id)
 );
 

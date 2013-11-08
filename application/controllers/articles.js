@@ -43,12 +43,15 @@ module.exports = Cube.Class({
 			create: '/articles/create/',
 			edit: '/articles/edit/:id/',
 			delete: '/articles/delete/',
-			view: '/articles/view/:id/'
+			view: '/articles/view/:id/',
+			status: '/articles/status/:id/:status/'
 		};
 	},
 
 	/**
 	 * Index.
+	 *
+	 * @param it {Object}
 	 */
 	actionIndex: function(it) {
 		Cube.models.postgresql('Categories').find().all(function(err, categories) {
@@ -65,6 +68,8 @@ module.exports = Cube.Class({
 
 	/**
 	 * Add articles.
+	 *
+	 * @param it {Object}
 	 */
 	actionCreate: function(it) {
 		var model = Cube.models.postgresql('Articles');
@@ -72,7 +77,8 @@ module.exports = Cube.Class({
 		if (!it.request.isPostRequest()) {
 			Cube.models.postgresql('Categories').find().all(function(err, categories) {
 				if (err) {
-					throw 'Could\'t get categories!';
+					console.error('Could\'t get categories!');
+					it.request.end();
 				}
 
 				it.render(this, 'create', {
@@ -99,9 +105,12 @@ module.exports = Cube.Class({
 
 	/**
 	 * Edit category.
+	 *
+	 * @param it {Object}
 	 */
 	actionEdit: function(it) {
 		var id = it.request.getParam('id'),
+			post = it.request.get('Articles', {}),
 			model = Cube.models.postgresql('Articles');
 
 		model.find(id).one(function(err, model) {
@@ -112,7 +121,8 @@ module.exports = Cube.Class({
 			if (!it.request.isPostRequest()) {
 				Cube.models.postgresql('Categories').find().all(function(err, categories) {
 					if (err) {
-						throw 'Could\'t get categories!';
+						console.error('Could\'t get categories!');
+						it.request.end();
 					}
 
 					it.render(this, 'edit', {
@@ -123,14 +133,16 @@ module.exports = Cube.Class({
 				return;
 			}
 
-			model.set(it.request.get('Articles'))
+			model.set(post)
 				.unset(['date_create', 'date_update'])//	FIXME: Какой то косяк с сохранением дат
+				.set('is_publish', post.is_publish ? true : false)
 				.save(function(err, model) {
 					if (err) {
 						console.log(err);
 						Cube.models.postgresql('Categories').find().all(function(err, categories) {
 							if (err) {
-								throw 'Could\'t get categories!';
+								console.error('Could\'t get categories!');
+								it.request.end();
 							}
 
 							it.render(this, 'edit', {
@@ -150,7 +162,7 @@ module.exports = Cube.Class({
 	/**
 	 * Delete category\ies
 	 *
-	 * @param it
+	 * @param it {Object}
 	 */
 	actionDelete: function(it) {
 		var id = it.request.get('id');
@@ -175,6 +187,8 @@ module.exports = Cube.Class({
 
 	/**
 	 * View category.
+	 *
+	 * @param it {Object}
 	 */
 	actionView: function(it) {
 		var id = it.request.getParam('id'),
@@ -190,5 +204,37 @@ module.exports = Cube.Class({
 				model: model
 			});
 		}.bind(this));
+	},
+
+	/**
+	 * To publish or draft article.
+	 *
+	 * @param it {Object}
+	 */
+	actionStatus: function(it) {
+		var id = it.request.getParam('id'),
+			status = it.request.getParam('status'),
+			model = Cube.models.postgresql('Articles');
+
+		if (!it.request.isPostRequest()) {
+			it.request.end();
+			return;
+		}
+
+		model.find(id).one(function(err, model) {
+			if (err) {
+				it.request.send('FAIL', err, true);
+				return;
+			}
+
+			model.set('is_publish', status === 'publish').save(function(err) {
+				if (err) {
+					it.request.send('FAIL', err, true);
+					return;
+				}
+
+				it.request.send('OK', '', true);
+			});
+		});
 	}
 });

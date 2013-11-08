@@ -9,6 +9,11 @@
 }); %>
 
 <div class="pull-right" id="toolbar">
+	<%- if @model.get('is_publish') then
+		('<a href="/articles/status/' + @model.get('id') + '/draft/" class="btn btn-warning request-post" data-action="reload"><span class="glyphicon glyphicon-unchecked"></span> В черновик</a>')
+	else
+		('<a href="/articles/status/' + @model.get('id') + '/publish/" class="btn btn-success request-post" data-action="reload"><span class="glyphicon glyphicon-check"></span> Опубликовать</a>')
+	%>
 	<a href="/articles/edit/<%- @model.get('id') %>/" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span> Редактировать</a>
 	<a href="/articles/" class="btn btn-default"><span class="glyphicon glyphicon-circle-arrow-left"></span> Вернуться</a>
 </div>

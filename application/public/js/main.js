@@ -21,4 +21,28 @@ $(function() {
 				btn.button('reset');
 			}, 3000);
 		});
+
+	/**
+	 * Post request.
+	 */
+	$('body').on('click', '.request-post', function() {
+		$.ajax({
+			type: 'POST',
+			dataType: 'JSON',
+			data: {},
+			url: $(this).attr('href'),
+			success: function(req) {
+				if (!req || req.status !== 'OK') {
+					alert(req.error || 'Ошибка');
+					return;
+				}
+
+				if ($(this).data('action') === 'reload') {
+					window.location.href = window.location.href;
+				}
+			}.bind(this)
+		});
+
+		return false;
+	});
 });
