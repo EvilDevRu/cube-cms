@@ -23,7 +23,7 @@ module.exports = Cube.Class({
 			return;
 		}
 
-		Cube.models.pg('Users').find({ login: this.username.trim() }).one(function(err, user) {
+		Cube.models.get('Users').find({ login: this.username.trim() }).one(function(err, user) {
 			if (err) {
 				callback(err);
 				return;

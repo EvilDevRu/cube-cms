@@ -51,7 +51,7 @@ module.exports = Cube.Class({
 	 * Index.
 	 */
 	actionIndex: function(it) {
-		Cube.models.postgresql('Categories').find().all(function(err, categories) {
+		Cube.models.get('Categories').find().all(function(err, categories) {
 			it.render(this, 'index', {
 				location: it.request.getLocation(),
 				rubrics: categories
@@ -63,7 +63,7 @@ module.exports = Cube.Class({
 	 * Add category.
 	 */
 	actionCreate: function(it) {
-		var model = Cube.models.postgresql('Categories');
+		var model = Cube.models.get('Categories');
 
 		if (!it.request.isPostRequest()) {
 			it.render(this, 'create', {
@@ -90,7 +90,7 @@ module.exports = Cube.Class({
 	 */
 	actionEdit: function(it) {
 		var id = it.request.getParam('id'),
-			model = Cube.models.postgresql('Categories');
+			model = Cube.models.get('Categories');
 
 		model.find(id).one(function(err, model) {
 			if (err) {
@@ -137,7 +137,7 @@ module.exports = Cube.Class({
 			throw 'Empty items!';
 		}
 
-		Cube.models.postgresql('Categories').delete(ids).all(function(err, count) {
+		Cube.models.get('Categories').delete(ids).all(function(err, count) {
 			if (err) {
 				throw err;
 			}
@@ -151,7 +151,7 @@ module.exports = Cube.Class({
 	 */
 	actionView: function(it) {
 		var id = it.request.getParam('id'),
-			model = Cube.models.postgresql('Categories');
+			model = Cube.models.get('Categories');
 
 		model.find(id).one(function(err, model) {
 			if (err) {

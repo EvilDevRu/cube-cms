@@ -54,9 +54,9 @@ module.exports = Cube.Class({
 	 * @param it {Object}
 	 */
 	actionIndex: function(it) {
-		Cube.models.postgresql('Categories').find().all(function(err, categories) {
+		Cube.models.get('Categories').find().all(function(err, categories) {
 			//	TODO: Err
-			Cube.models.postgresql('Articles').find().all(function(err, articles) {
+			Cube.models.get('Articles').find().all(function(err, articles) {
 				//	TODO: Err
 				it.render(this, 'index', {
 					articles: articles,
@@ -72,10 +72,10 @@ module.exports = Cube.Class({
 	 * @param it {Object}
 	 */
 	actionCreate: function(it) {
-		var model = Cube.models.postgresql('Articles');
+		var model = Cube.models.get('Articles');
 
 		if (!it.request.isPostRequest()) {
-			Cube.models.postgresql('Categories').find().all(function(err, categories) {
+			Cube.models.get('Categories').find().all(function(err, categories) {
 				if (err) {
 					console.error('Could\'t get categories!');
 					it.request.end();
@@ -111,7 +111,7 @@ module.exports = Cube.Class({
 	actionEdit: function(it) {
 		var id = it.request.getParam('id'),
 			post = it.request.get('Articles', {}),
-			model = Cube.models.postgresql('Articles');
+			model = Cube.models.get('Articles');
 
 		model.find(id).one(function(err, model) {
 			if (err) {
@@ -119,7 +119,7 @@ module.exports = Cube.Class({
 			}
 
 			if (!it.request.isPostRequest()) {
-				Cube.models.postgresql('Categories').find().all(function(err, categories) {
+				Cube.models.get('Categories').find().all(function(err, categories) {
 					if (err) {
 						console.error('Could\'t get categories!');
 						it.request.end();
@@ -139,7 +139,7 @@ module.exports = Cube.Class({
 				.save(function(err, model) {
 					if (err) {
 						console.log(err);
-						Cube.models.postgresql('Categories').find().all(function(err, categories) {
+						Cube.models.get('Categories').find().all(function(err, categories) {
 							if (err) {
 								console.error('Could\'t get categories!');
 								it.request.end();
@@ -176,7 +176,7 @@ module.exports = Cube.Class({
 			throw 'Empty items!';
 		}
 
-		Cube.models.postgresql('Articles').delete(ids).all(function(err) {
+		Cube.models.get('Articles').delete(ids).all(function(err) {
 			if (err) {
 				throw err;
 			}
@@ -192,7 +192,7 @@ module.exports = Cube.Class({
 	 */
 	actionView: function(it) {
 		var id = it.request.getParam('id'),
-			model = Cube.models.postgresql('Articles');
+			model = Cube.models.get('Articles');
 
 		model.find(id).one(function(err, model) {
 			if (err) {
@@ -214,7 +214,7 @@ module.exports = Cube.Class({
 	actionStatus: function(it) {
 		var id = it.request.getParam('id'),
 			status = it.request.getParam('status'),
-			model = Cube.models.postgresql('Articles');
+			model = Cube.models.get('Articles');
 
 		if (!it.request.isPostRequest()) {
 			it.request.end();

@@ -1,5 +1,5 @@
 /**
- * Model of the users.
+ * Model of a menu.
  *
  * @author Dmitriy Yurchenko <feedback@evildev.ru>
  * @link http://cubeframework.com/
@@ -8,7 +8,7 @@
  */
 
 module.exports = Cube.Class({
-	extend: Cube.PgActiveRecord,
+	extend: Cube.MyActiveRecord,
 
 	/**
 	 * Returns without formatted table name.
@@ -17,6 +17,6 @@ module.exports = Cube.Class({
 	 */
 	tableName: function() {
 		'use strict';
-		return 'users';
+		return 'admin_menu';
 	}
 });

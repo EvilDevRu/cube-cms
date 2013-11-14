@@ -10,7 +10,7 @@
 'use strict';
 
 module.exports = Cube.Class({
-	extend: Cube.PgActiveRecord,
+	extend: Cube.MyActiveRecord,
 
 	/**
 	 * Returns without formatted table name.
