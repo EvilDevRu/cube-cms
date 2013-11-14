@@ -75,6 +75,8 @@ module.exports = Cube.Class({
 		model.set(it.request.get('Categories'))
 			.save(function(err, model) {
 				if (err) {
+					console.warn(err);
+
 					it.render(this, 'create', {
 						model: model
 					});

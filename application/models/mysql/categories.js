@@ -33,5 +33,50 @@ module.exports = Cube.Class({
 			meta_desc: 'Мета-тег "Описание"',
 			meta_keys: 'Мета-тег "Ключевые слова"'
 		};
+	},
+
+	/**
+	 * Save meta model.
+	 */
+	beforeSave: function(callback) {
+		var meta = Cube.models.get('Meta');
+
+		/**
+		 * Save callback function.
+		 */
+		var Save = function() {
+			meta.set('description', this.get('meta_desc'))
+				.set('keys', this.get('meta_keys'))
+				.save(function(err, model) {
+					if (err) {
+						callback(err);
+						return;
+					}
+
+					this.unset(['meta_desc', 'meta_keys']);
+					if (this.isNewRecord()) {
+						this.set('meta_id', model.get('id'));
+					}
+
+					callback();
+				}.bind(this));
+		}.bind(this);
+
+		//	If record is exist.
+		if (this.get('meta_id') && !this.isNewRecord()) {
+			meta.find(this.get('meta_id')).one(function(err) {
+				if (err) {
+					callback(err);
+					return;
+				}
+
+				Save();
+			});
+
+			return;
+		}
+
+		//	If record is not exist.
+		Save();
 	}
 });
