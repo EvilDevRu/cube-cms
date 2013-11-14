@@ -46,8 +46,8 @@ module.exports = {
 
 	//	Database settings section.
 	database: {
-		default: 'postgresql',
-		postgresql: {
+		default: 'mysql',
+		mysql: {
 			host: 'localhost',
 			database: '',
 			username: '',
@@ -63,8 +63,9 @@ module.exports = {
 	 */
 	beforeRun: function(callback) {
 		//	Read menu.
-		Cube.models.postgresql('Menu').find().orderBy('sort DESC').all(function(err, items) {
+		Cube.models.get('Menu').find()/*.orderBy('sort DESC')*/.all(function(err, items) {
 			if (err) {
+				//	TODO: Throw
 				console.error(err);
 				Cube.app.end(1);
 			}
@@ -77,22 +78,20 @@ module.exports = {
 
 			//	Build menu.
 			_.each(items, function(item) {
-				if (item.pid) {
+				if (item.parent_id) {
 					return;
 				}
 
-				var to = (item.pull === 2 ? 'right' : 'middle');
-				if (item.pull === 1) {
-					to = 'left';
-				}
-
+				item.params = JSON.parse(item.params || '{}');
 				item.submenu = [];
-				_.each(_.where(items, { pid: item.id }), function(subitem) {
-					item.submenu.push(subitem);
+
+				_.each(_.where(items, { parent_id: item.id }), function(subItem) {
+					subItem.params = JSON.parse(subItem.params || '{}');
+					item.submenu.push(subItem);
 				});
 
-				Cube.app.config.navbar[ to ].push(item);
-			});
+				Cube.app.config.navbar[ item.params.pull || 'left' ].push(item);
+			}, this);
 
 			callback(err);
 		});
